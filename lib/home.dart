@@ -1,3 +1,4 @@
+import 'package:e_commerce/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -8,6 +9,33 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+class Products {
+  final String title;
+  final String image;
+  final double price;
+
+  Products({required this.title, required this.image, required this.price});
+}
+
+List<Products> products = [
+  Products(
+      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 199.10),
+  Products(
+      title: 'Oraimo Earphones', image: 'assets/earphones.png', price: 200.30),
+  Products(
+      title: 'Aesthetic-White Mug', image: 'assets/max.png', price: 199.10),
+  Products(title: 'Beats by Dre', image: 'assets/mug.png', price: 199.10),
+  Products(
+      title: 'Apple Airpods Max', image: 'assets/beats.png', price: 199.10),
+  Products(
+      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 199.10),
+];
+List<Products> productItems = [];
+
+addToCart(Products item) {
+  productItems.add(item);
+}
+
 class _HomeScreenState extends State<HomeScreen> {
   List category = [
     {'image': 'assets/apparel.png', 'text': 'Apparel'},
@@ -16,18 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
     {'image': 'assets/electronic.png', 'text': 'Electronics'},
     {'image': 'assets/all.png', 'text': 'All'}
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Column(
+        title: Column(
           children: [
             ListTile(
-              title: Text(
+              title: const Text(
                 'Delivery address',
                 style: TextStyle(color: Colors.grey),
               ),
-              subtitle: Row(
+              subtitle: const Row(
                 children: [
                   Text(
                     'Salatiga City, Central Java',
@@ -42,11 +71,20 @@ class _HomeScreenState extends State<HomeScreen> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Iconsax.shopping_cart),
-                  SizedBox(
+                  const Icon(Iconsax.shopping_cart),
+                  const SizedBox(
                     width: 10,
                   ),
-                  Icon(Iconsax.notification)
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Cart(
+                                      productItems: [],
+                                    )));
+                      },
+                      icon: const Icon(Iconsax.notification))
                 ],
               ),
             )
@@ -114,7 +152,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Recent product'),
+                    const Text(
+                      'Recent product',
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                    ),
                     Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -137,25 +179,48 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: GridView.builder(
-                      itemCount: 10,
-                      physics: ScrollPhysics(),
-                      primary: true,
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              mainAxisSpacing: 5,
-                              crossAxisSpacing: 5,
-                              childAspectRatio: 2 / 3),
-                      itemBuilder: (context, index) {
-                        return const Card(
-                          color: Colors.red,
-                        );
-                      }),
-                )
+                GridView.builder(
+                    itemCount: products.length,
+                    physics: const ScrollPhysics(),
+                    primary: true,
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 15,
+                            crossAxisSpacing: 10,
+                            childAspectRatio: 0.75),
+                    itemBuilder: (context, index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Image.asset(
+                            products[index].image,
+                            width: 200,
+                          ),
+                          Text(products[index].title),
+                          Text(
+                            products[index].price.toString(),
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w700, fontSize: 17),
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff67C4A7),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10))),
+                              onPressed: () {
+                                setState(() {
+                                  addToCart(products[index]);
+                                });
+                              },
+                              child: const Text(
+                                'Add to cart',
+                                style: TextStyle(color: Colors.white),
+                              ))
+                        ],
+                      );
+                    })
               ],
             )
           ]),

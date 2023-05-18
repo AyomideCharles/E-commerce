@@ -69,6 +69,12 @@ flutter:
     - assets/school.png
     - assets/mug.png
     - assets/tv.png
+    - assets/beats.png
+    - assets/earphones.png
+    - assets/max.png
+
+
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
