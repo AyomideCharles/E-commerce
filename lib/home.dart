@@ -19,15 +19,18 @@ class Products {
 
 List<Products> products = [
   Products(
-      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 199.99),
+      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 409.59),
   Products(
       title: 'Oraimo Earphones', image: 'assets/earphones.png', price: 15.23),
   Products(title: 'Aesthetic-White Mug', image: 'assets/mug.png', price: 5.76),
-  Products(title: 'Beats by Dre', image: 'assets/max.png', price: 420.99),
+  Products(title: 'Apple Airpods Max', image: 'assets/max.png', price: 420.99),
+  Products(title: 'Beats by Dre ', image: 'assets/beats.png', price: 256.78),
   Products(
-      title: 'Apple Airpods Max', image: 'assets/beats.png', price: 256.78),
-  Products(
-      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 112.19),
+      title: 'Apple iPhone 11 Pro Max',
+      image: 'assets/iphone.jpg',
+      price: 112.19),
+  Products(title: 'Xbox Controller', image: 'assets/play4.jpg', price: 59.78),
+  Products(title: 'Beats Headset', image: 'assets/headset.png', price: 256.78),
 ];
 List<Products> productItems = [];
 
@@ -46,8 +49,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        duration: Duration(milliseconds: 500),
-        content: Text('1 Item Added to Cart')));
+        backgroundColor: Color(0xff67C4A7),
+        duration: Duration(milliseconds: 50),
+        content: Text(
+          '1 Item Added to Cart',
+          style: TextStyle(color: Colors.black),
+        )));
   }
 
   @override
@@ -64,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               subtitle: const Row(
                 children: [
                   Text(
-                    'Salatiga City, Central Java',
+                    'Lagos, Nigeria',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                   ),
                   SizedBox(
@@ -76,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Iconsax.shopping_cart),
+                  const Icon(Iconsax.notification),
                   const SizedBox(
                     width: 10,
                   ),
@@ -89,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       productItems: [],
                                     )));
                       },
-                      icon: const Icon(Iconsax.notification))
+                      icon: const Icon(Iconsax.shopping_cart))
                 ],
               ),
             )
@@ -192,22 +199,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 25,
-                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20,
+                            crossAxisSpacing: 10,
                             childAspectRatio: 0.75),
                     itemBuilder: (context, index) {
                       return Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.grey[200],
+                          border: Border.all(color: Colors.grey),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Image.asset(
                               products[index].image,
-                              width: 200,
+                              width: 180,
                               fit: BoxFit.fitWidth,
                             ),
                             const SizedBox(
@@ -242,7 +249,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 child: const Text(
                                   'Add to cart',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.black),
                                 ))
                           ],
                         ),
