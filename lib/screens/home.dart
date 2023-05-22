@@ -1,4 +1,5 @@
 import 'package:e_commerce/screens/cart.dart';
+import 'package:e_commerce/screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -33,6 +34,8 @@ List<Products> products = [
   Products(title: 'Beats Headset', image: 'assets/headset.png', price: 256.78),
 ];
 List<Products> productItems = [];
+
+List<Products> productdetails = [];
 
 class _HomeScreenState extends State<HomeScreen> {
   List category = [
@@ -107,12 +110,19 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
-            const TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Search here.....',
-                  prefixIcon: Icon(Iconsax.search_normal)),
+            SearchBar(
+              backgroundColor: const MaterialStatePropertyAll(Colors.white),
+              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10))),
+              leading: const Icon(Icons.search),
+              hintText: 'Search here.....',
             ),
+            // const TextField(
+            //   decoration: InputDecoration(
+            //       border: OutlineInputBorder(),
+            //       hintText: 'Search here.....',
+            //       prefixIcon: Icon(Iconsax.search_normal)),
+            // ),
             const SizedBox(
               height: 20,
             ),
@@ -203,55 +213,65 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisSpacing: 10,
                             childAspectRatio: 0.75),
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: Colors.grey),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              products[index].image,
-                              width: 180,
-                              fit: BoxFit.fitWidth,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              products[index].title,
-                              style: const TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w400),
-                            ),
-                            Text(
-                              '\$${products[index].price.toString()}',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w700, fontSize: 17),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: const Color(0xff67C4A7),
-                                    minimumSize:
-                                        const Size(double.infinity, 50),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10))),
-                                onPressed: () {
-                                  setState(() {
-                                    addToCart(products[index]);
-                                  });
-                                  showSnack();
-                                },
-                                child: const Text(
-                                  'Add to cart',
-                                  style: TextStyle(color: Colors.black),
-                                ))
-                          ],
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ProductDetails(
+                                        productdetails: [],
+                                      )));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                products[index].image,
+                                width: 180,
+                                fit: BoxFit.fitWidth,
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                products[index].title,
+                                style: const TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w400),
+                              ),
+                              Text(
+                                '\$${products[index].price.toString()}',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w700, fontSize: 17),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xff67C4A7),
+                                      minimumSize:
+                                          const Size(double.infinity, 50),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10))),
+                                  onPressed: () {
+                                    setState(() {
+                                      addToCart(products[index]);
+                                    });
+                                    showSnack();
+                                  },
+                                  child: const Text(
+                                    'Add to cart',
+                                    style: TextStyle(color: Colors.black),
+                                  ))
+                            ],
+                          ),
                         ),
                       );
                     })
