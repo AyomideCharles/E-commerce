@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-
-import 'home.dart';
+import '../model/productsmodel.dart';
 
 class ProductDetails extends StatefulWidget {
-  final List<Products> productdetails;
-  const ProductDetails({super.key, required this.productdetails});
+  final Products productdetail;
+  const ProductDetails({super.key, required this.productdetail});
 
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
@@ -14,12 +13,13 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   Color buttonColor = const Color(0xff67C4A7);
 
-  void changeButtonColor() {
-    setState(() {
-      buttonColor = buttonColor == Colors.green ? Colors.white : Colors.green;
-    });
-  }
-
+  List colors = [
+    const Color(0xff3E3D40),
+    const Color(0xffD5E0ED),
+    const Color(0xffE4F2DF),
+    const Color(0xffECECEC),
+    const Color(0xffF5E3DF),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,14 +33,30 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('assets/beats.png'),
-                  const ListTile(
-                    title: Text('Apple Airpods Max'),
-                    subtitle: Text('1999'),
-                    trailing: Icon(Iconsax.heart),
+                  Image.asset(
+                    widget.productdetail.image,
+                    width: double.infinity,
+                    fit: BoxFit.contain,
+                  ),
+                  ListTile(
+                    title: Text(widget.productdetail.title,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w400)),
+                    subtitle: Text(
+                      '\$ ${widget.productdetail.price}',
+                      style: const TextStyle(
+                          fontSize: 22, fontWeight: FontWeight.w500),
+                    ),
+                    trailing: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(50)),
+                        child: const Icon(Iconsax.heart)),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                     width: double.infinity,
                     height: 500,
                     child: SingleChildScrollView(
@@ -53,14 +69,23 @@ class _ProductDetailsState extends State<ProductDetails> {
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 5),
-                              itemCount: 5,
+                              itemCount: colors.length,
                               itemBuilder: (context, index) {
-                                return const Card();
+                                return GestureDetector(
+                                  onTap: () {},
+                                  child: Card(
+                                    color: colors[index],
+                                  ),
+                                );
                               }),
                           const Divider(),
                           ListTile(
                             leading: Image.asset('assets/applelogo.png'),
-                            title: const Text('Apple Store'),
+                            title: const Text(
+                              'Apple Store',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
                             subtitle: const Text('online 12 mins ago'),
                             trailing: TextButton(
                               style: TextButton.styleFrom(
@@ -82,8 +107,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                           ),
-                          const Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed pharetra, metus in dapibus auctor, leo nunc vestibulum enim, at vulputate felis risus vitae dui. In ac ligula a felis fringilla aliquam. Mauris varius fringilla nunc, sit amet auctor tellus placerat sed. Proin dapibus tincidunt tristique. Sed sagittis ante ac enim sollicitudin rutrum. Nullam sed ex id sem suscipit tincidunt non eu ex. Aliquam eget dui id metus convallis fermentum. Ut vitae aliquam sem. Quisque bibendum ante eu dui laoreet bibendum. Suspendisse potenti. Nulla facilisi. Mauris pharetra consectetur nunc non tempus. Sed in faucibus duivestibulum enim, at vulputate felis risus vitae dui. In ac ligula a felis fringilla aliquam. Mauris varius fringilla nunc, sit amet auctor tellus placerat sed. Proin dapibus tincidunt tristique. Sed sagittis ante ac enim sollicitudin rutrum. Nullam sed ex id sem suscipit tincidunt non eu ex. Aliquam eget dui id metus convallis fermentum. Ut vitae aliquam sem. Quisque bibendum ante eu dui laoreet bibendum. Suspendisse potenti. Nulla facilisi. Mauris pharetra consectetur nunc non tempus. Sed i')
+                          Text(widget.productdetail.description)
                         ],
                       ),
                     ),
@@ -93,42 +117,44 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
             Positioned(
               bottom: 0,
-              left: 0,
               right: 0,
+              left: 0,
               child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                decoration: const BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.grey)),
                   color: Colors.white,
                 ),
-                padding: const EdgeInsets.all(10),
-                height: 100,
+                height: 80,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            backgroundColor: buttonColor,
-                            minimumSize: const Size(100, 50),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
-                        onPressed: () {
-                          changeButtonColor;
-                        },
-                        child: const Text('Add to Cart')),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(100, 50),
+                            backgroundColor: Colors.grey[200],
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(5))),
                         onPressed: () {},
-                        child: const Text('Buy Now'))
+                        child: const Text(
+                          'Add to Cart',
+                          style: TextStyle(color: Colors.black),
+                        )),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)),
+                            backgroundColor: Colors.grey[200]),
+                        onPressed: () {},
+                        child: const Text(
+                          'Buy Now',
+                          style: TextStyle(color: Colors.black),
+                        ))
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ));
   }

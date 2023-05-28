@@ -1,7 +1,7 @@
 import 'package:e_commerce/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-// import 'package:iconsax/iconsax.dart';
+import '../model/productsmodel.dart';
 
 class Cart extends StatefulWidget {
   final List<Products> productItems;
@@ -20,7 +20,7 @@ class _CartState extends State<Cart> {
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Color(0xff67C4A7),
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 500),
         content: Text(
           '1 Item removed from Cart',
           style: TextStyle(color: Colors.black),
@@ -114,6 +114,7 @@ class _CartState extends State<Cart> {
                             IconButton(
                                 onPressed: () {
                                   _incrementCounter();
+                                  setState(() {});
                                 },
                                 icon: Container(
                                     decoration: BoxDecoration(

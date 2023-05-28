@@ -3,6 +3,8 @@ import 'package:e_commerce/screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
+import '../model/productsmodel.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -10,32 +12,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class Products {
-  final String title;
-  final String image;
-  final double price;
-
-  Products({required this.title, required this.image, required this.price});
-}
-
-List<Products> products = [
-  Products(
-      title: 'Monitor LG 22"inch 4k', image: 'assets/tv.png', price: 409.59),
-  Products(
-      title: 'Oraimo Earphones', image: 'assets/earphones.png', price: 15.23),
-  Products(title: 'Aesthetic-White Mug', image: 'assets/mug.png', price: 5.76),
-  Products(title: 'Apple Airpods Max', image: 'assets/max.png', price: 420.99),
-  Products(title: 'Beats by Dre ', image: 'assets/beats.png', price: 256.78),
-  Products(
-      title: 'Apple iPhone 11 Pro Max',
-      image: 'assets/iphone.jpg',
-      price: 112.19),
-  Products(title: 'Xbox Controller', image: 'assets/play4.jpg', price: 59.78),
-  Products(title: 'Beats Headset', image: 'assets/headset.png', price: 256.78),
-];
 List<Products> productItems = [];
-
-List<Products> productdetails = [];
 
 class _HomeScreenState extends State<HomeScreen> {
   List category = [
@@ -53,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Color(0xff67C4A7),
-        duration: Duration(milliseconds: 50),
+        duration: Duration(milliseconds: 1000),
         content: Text(
           '1 Item Added to Cart',
           style: TextStyle(color: Colors.black),
@@ -117,12 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: const Icon(Icons.search),
               hintText: 'Search here.....',
             ),
-            // const TextField(
-            //   decoration: InputDecoration(
-            //       border: OutlineInputBorder(),
-            //       hintText: 'Search here.....',
-            //       prefixIcon: Icon(Iconsax.search_normal)),
-            // ),
             const SizedBox(
               height: 20,
             ),
@@ -201,80 +172,96 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 25,
                 ),
-                GridView.builder(
-                    itemCount: products.length,
-                    physics: const ScrollPhysics(),
-                    primary: true,
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 20,
-                            crossAxisSpacing: 10,
-                            childAspectRatio: 0.75),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const ProductDetails(
-                                        productdetails: [],
-                                      )));
-                        },
-                        child: Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.asset(
-                                products[index].image,
-                                width: 180,
-                                fit: BoxFit.fitWidth,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                products[index].title,
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w400),
-                              ),
-                              Text(
-                                '\$${products[index].price.toString()}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700, fontSize: 17),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xff67C4A7),
-                                      minimumSize:
-                                          const Size(double.infinity, 50),
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10))),
-                                  onPressed: () {
-                                    setState(() {
-                                      addToCart(products[index]);
-                                    });
-                                    showSnack();
-                                  },
-                                  child: const Text(
-                                    'Add to cart',
-                                    style: TextStyle(color: Colors.black),
-                                  ))
-                            ],
-                          ),
-                        ),
-                      );
-                    })
+                SizedBox(
+                  height: 300,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        GridView.builder(
+                            itemCount: products.length,
+                            physics: const ScrollPhysics(),
+                            primary: true,
+                            shrinkWrap: true,
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 10,
+                                    childAspectRatio: 0.75),
+                            itemBuilder: (context, index) {
+                              final selectedProduct = products[index];
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) {
+                                    return ProductDetails(
+                                      productdetail: selectedProduct,
+                                    );
+                                  }));
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.grey),
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.asset(
+                                        products[index].image,
+                                        width: 150,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(
+                                        products[index].title,
+                                        style: const TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400),
+                                      ),
+                                      Text(
+                                        '\$${products[index].price.toString()}',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 17),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  const Color(0xff67C4A7),
+                                              minimumSize: const Size(
+                                                  double.infinity, 50),
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10))),
+                                          onPressed: () {
+                                            setState(() {
+                                              addToCart(products[index]);
+                                            });
+                                            showSnack();
+                                          },
+                                          child: const Text(
+                                            'Add to cart',
+                                            style:
+                                                TextStyle(color: Colors.black),
+                                          ))
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                  ),
+                )
               ],
             )
           ]),
