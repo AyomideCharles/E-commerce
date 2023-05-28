@@ -1,20 +1,21 @@
 import 'package:e_commerce/screens/cart.dart';
-import 'package:e_commerce/screens/details.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../model/productsmodel.dart';
+import '../../model/productsmodel.dart';
+import '../details.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<Home> createState() => _HomeState();
 }
 
 List<Products> productItems = [];
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeState extends State<Home> {
   List category = [
     {'image': 'assets/apparel.png', 'text': 'Apparel'},
     {'image': 'assets/school.png', 'text': 'School'},
@@ -37,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )));
   }
 
+  final _controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,6 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
             SearchBar(
+              elevation: const MaterialStatePropertyAll(1),
               backgroundColor: const MaterialStatePropertyAll(Colors.white),
               shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10))),
@@ -97,21 +100,34 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(
               height: 20,
             ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+            SizedBox(
+              height: 200,
+              child: PageView(
+                controller: _controller,
+                scrollDirection: Axis.horizontal,
                 children: [
                   Image.asset(
                     'assets/banner1.png',
+                    fit: BoxFit.contain,
                   ),
                   Image.asset(
-                    'assets/banner1.png',
+                    'assets/banner2.png',
+                    fit: BoxFit.contain,
                   ),
                   Image.asset(
-                    'assets/banner1.png',
+                    'assets/banner3.png',
+                    fit: BoxFit.contain,
                   )
                 ],
               ),
+            ),
+            SmoothPageIndicator(
+              controller: _controller,
+              count: 3,
+              effect: const ExpandingDotsEffect(
+                  dotColor: Colors.grey,
+                  dotHeight: 10,
+                  activeDotColor: Colors.black),
             ),
             const SizedBox(
               height: 20,
@@ -267,24 +283,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ]),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          fixedColor: const Color(0xff67C4A7),
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Iconsax.home_25), label: 'Home'),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.heart),
-              label: 'Wishlist',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.transaction_minus),
-              label: 'History',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Iconsax.profile_add),
-              label: 'profile',
-            )
-          ]),
     );
   }
 }

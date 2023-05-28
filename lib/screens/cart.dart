@@ -1,7 +1,7 @@
-import 'package:e_commerce/screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/productsmodel.dart';
+import 'bottom nav/home.dart';
 
 class Cart extends StatefulWidget {
   final List<Products> productItems;
