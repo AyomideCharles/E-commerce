@@ -124,9 +124,10 @@ class _HomeState extends State<Home> {
             SmoothPageIndicator(
               controller: _controller,
               count: 3,
-              effect: const ExpandingDotsEffect(
+              effect: const JumpingDotEffect(
                   dotColor: Colors.grey,
-                  dotHeight: 10,
+                  dotHeight: 15,
+                  dotWidth: 15,
                   activeDotColor: Colors.black),
             ),
             const SizedBox(
@@ -139,22 +140,38 @@ class _HomeState extends State<Home> {
                   'Category',
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
                 ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: category
-                        .map((e) => Column(
-                              children: [
-                                Image.asset(
-                                  e['image'],
-                                  width: 50,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: category
+                          .map((e) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey.shade300),
+                                  height: 100,
+                                  width: 100,
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Image.asset(
+                                        e['image'],
+                                        width: 50,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(e['text'])
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(e['text'])
-                              ],
-                            ))
-                        .toList()),
+                              ))
+                          .toList()),
+                ),
                 const SizedBox(
                   height: 25,
                 ),
@@ -167,10 +184,10 @@ class _HomeState extends State<Home> {
                           TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
                     ),
                     Container(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey)),
+                            borderRadius: BorderRadius.circular(5),
+                            border: Border.all(color: Colors.grey.shade900)),
                         child: const Row(
                           children: [
                             Text(
@@ -219,7 +236,8 @@ class _HomeState extends State<Home> {
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Colors.grey),
+                                    border:
+                                        Border.all(color: Colors.grey.shade900),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:

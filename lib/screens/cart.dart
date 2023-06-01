@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import '../model/productsmodel.dart';
 import 'bottom nav/home.dart';
 
@@ -12,11 +11,6 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-  removeFromCart(Products item) {
-    productItems.remove(item);
-    setState(() {});
-  }
-
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Color(0xff67C4A7),
@@ -40,8 +34,6 @@ class _CartState extends State<Cart> {
       _counter--;
     });
   }
-
-  void doNothing(BuildContext context) {}
 
   @override
   Widget build(BuildContext context) {
@@ -68,35 +60,45 @@ class _CartState extends State<Cart> {
         ListView.builder(
             itemCount: productItems.length,
             itemBuilder: (context, index) {
-              return Slidable(
-                key: const ValueKey(0),
-                endActionPane: ActionPane(
-                  motion: const ScrollMotion(),
-                  dismissible: DismissiblePane(onDismissed: () {}),
-                  children: [
-                    SlidableAction(
-                      onPressed: doNothing,
-                      backgroundColor: const Color(0xFFFE4A49),
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
+              return Column(
+                children: [
+                  ListTile(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    leading: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Checkbox(value: _icChecked, onChanged: (value) {}),
+                        Image.asset(
+                          productItems[index].image,
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        )
+                      ],
                     ),
-                  ],
-                ),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        leading: Image.asset(productItems[index].image),
-                        title: Text(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           productItems[index].title,
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
-                        subtitle: Row(
+                        const Text(
+                          'Variant: Grey',
+                          style: TextStyle(color: Colors.grey, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                    subtitle: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '\$ ${productItems[index].price.toString()}',
+                          style: const TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                        ),
+                        Row(
                           children: [
                             IconButton(
                                 onPressed: () {
@@ -121,18 +123,23 @@ class _CartState extends State<Cart> {
                                         border: Border.all(),
                                         borderRadius:
                                             BorderRadius.circular(20)),
-                                    child: const Icon(Icons.add)))
+                                    child: const Icon(Icons.add))),
+                            IconButton(
+                              icon: const Icon(Icons.cancel),
+                              onPressed: () {
+                                setState(() {
+                                  showSnack();
+                                  productItems.removeAt(index);
+                                });
+                              },
+                            ),
                           ],
-                        ),
-                        trailing: Text(
-                          '\$${productItems[index].price}',
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      const Divider()
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
+                  const Divider()
+                ],
               );
             }),
         Positioned(
@@ -148,17 +155,17 @@ class _CartState extends State<Cart> {
             height: 110,
             child: Column(
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Total',
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
                     Text(
-                      '$_counter',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 17),
+                      '\$2,000',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     )
                   ],
                 ),
@@ -241,4 +248,6 @@ class _CartState extends State<Cart> {
           );
         });
   }
+
+  final bool _icChecked = false;
 }
