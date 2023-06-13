@@ -20,6 +20,25 @@ class _ProductDetailsState extends State<ProductDetails> {
     const Color(0xffECECEC),
     const Color(0xffF5E3DF),
   ];
+
+  Color _buttonColor = Colors.grey;
+  final Color _initialColor = Colors.grey;
+
+  void _changeColor() {
+    setState(() {
+      _buttonColor =
+          (_buttonColor == _initialColor) ? Colors.red : _initialColor;
+    });
+  }
+
+  // List<Products> wishlist = [];
+
+  // void addToWishlist(Products item) {
+  //   setState(() {
+  //     wishlist.add(item);
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +66,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.w500),
                     ),
-                    trailing: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                            border: Border.all(),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: const Icon(Iconsax.heart)),
+                    trailing: IconButton(
+                      onPressed: () {
+                        // addToWishlist(item);
+                        _changeColor();
+                      },
+                      icon: Icon(
+                        Iconsax.lovely5,
+                        color: _buttonColor,
+                      ),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),

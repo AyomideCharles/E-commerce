@@ -146,24 +146,17 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: category
                           .map((e) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Container(
+                                  padding: const EdgeInsets.all(20),
                                   decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
                                       color: Colors.grey.shade300),
-                                  height: 100,
-                                  width: 100,
                                   child: Column(
                                     children: [
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
                                       Image.asset(
                                         e['image'],
                                         width: 50,
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
                                       ),
                                       Text(e['text'])
                                     ],
