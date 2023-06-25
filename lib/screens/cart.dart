@@ -35,6 +35,8 @@ class _CartState extends State<Cart> {
     });
   }
 
+  double totalPrice = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,25 +150,21 @@ class _CartState extends State<Cart> {
           right: 0,
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
+              border: Border.all(color: Colors.grey.shade200),
               color: Colors.white,
             ),
             padding: const EdgeInsets.all(10),
             height: 110,
             child: Column(
               children: [
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'Total',
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text(
-                      '\$2,000',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
-                    )
+                    Text('$totalPrice')
                   ],
                 ),
                 const SizedBox(

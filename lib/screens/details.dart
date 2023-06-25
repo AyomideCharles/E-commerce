@@ -31,14 +31,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     });
   }
 
-  // List<Products> wishlist = [];
-
-  // void addToWishlist(Products item) {
-  //   setState(() {
-  //     wishlist.add(item);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +60,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                     ),
                     trailing: IconButton(
                       onPressed: () {
-                        // addToWishlist(item);
                         _changeColor();
                       },
                       icon: Icon(

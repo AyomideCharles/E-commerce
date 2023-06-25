@@ -239,7 +239,7 @@ class _HomeState extends State<Home> {
                                       Image.asset(
                                         products[index].image,
                                         width: 150,
-                                        fit: BoxFit.cover,
+                                        fit: BoxFit.contain,
                                       ),
                                       const SizedBox(
                                         height: 10,
