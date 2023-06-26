@@ -43,6 +43,10 @@ class _CartState extends State<Cart> {
     return totalPrice;
   }
 
+  // late final Function removeFromCart;
+
+  // int cartItemCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,7 +80,16 @@ class _CartState extends State<Cart> {
                     leading: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Checkbox(value: _icChecked, onChanged: (value) {}),
+                        Checkbox(
+                            checkColor: Colors.white,
+                            fillColor: const MaterialStatePropertyAll(
+                                Color(0xff67C4A7)),
+                            value: _icChecked,
+                            onChanged: (value) {
+                              setState(() {
+                                _icChecked = value!;
+                              });
+                            }),
                         Image.asset(
                           productItems[index].image,
                           width: 80,
@@ -136,6 +149,7 @@ class _CartState extends State<Cart> {
                               icon: const Icon(Icons.cancel),
                               onPressed: () {
                                 setState(() {
+                                  // removeFromCart();
                                   showSnack();
                                   productItems.removeAt(index);
                                 });
@@ -170,7 +184,6 @@ class _CartState extends State<Cart> {
                       'Total',
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    // Text('$totalPrice')
                     Text('\$${calculateTotalPrice().toStringAsFixed(2)}')
                   ],
                 ),
@@ -254,5 +267,5 @@ class _CartState extends State<Cart> {
         });
   }
 
-  final bool _icChecked = false;
+  bool _icChecked = false;
 }

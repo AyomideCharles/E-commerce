@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
 
   addToCart(Products products) {
     productItems.add(products);
+    cartItemCount++;
   }
 
   showSnack() {
@@ -39,6 +40,9 @@ class _HomeState extends State<Home> {
   }
 
   final _controller = PageController();
+
+  int cartItemCount = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,16 +73,31 @@ class _HomeState extends State<Home> {
                   const SizedBox(
                     width: 10,
                   ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Cart(
-                                      productItems: [],
-                                    )));
-                      },
-                      icon: const Icon(Iconsax.shopping_cart))
+                  Stack(
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Cart(
+                                          productItems: [],
+                                        )));
+                          },
+                          icon: const Icon(Iconsax.shopping_bag5)),
+                      Positioned(
+                        right: 4,
+                        top: 4,
+                        child: Badge(
+                          smallSize: 0,
+                          child: Text(
+                            cartItemCount.toString(),
+                            style: const TextStyle(fontSize: 15),
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             )
@@ -140,19 +159,24 @@ class _HomeState extends State<Home> {
                   'Category',
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: category
                           .map((e) => Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(right: 20),
                                 child: Container(
-                                  padding: const EdgeInsets.all(20),
+                                  height: 100,
+                                  width: 100,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(10),
                                       color: Colors.grey.shade300),
                                   child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Image.asset(
                                         e['image'],
@@ -238,8 +262,9 @@ class _HomeState extends State<Home> {
                                     children: [
                                       Image.asset(
                                         products[index].image,
-                                        width: 150,
-                                        fit: BoxFit.contain,
+                                        width: 190,
+                                        height: 115,
+                                        fit: BoxFit.cover,
                                       ),
                                       const SizedBox(
                                         height: 10,

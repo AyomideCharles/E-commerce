@@ -81,7 +81,8 @@ flutter:
     - assets/earphones.jpg
     - assets/banner2.png
     - assets/banner3.png
-
+    - assets/xbox.jpg
+    - assets/macbook.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
