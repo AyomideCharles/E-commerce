@@ -24,8 +24,8 @@ class _HomeState extends State<Home> {
     {'image': 'assets/all.png', 'text': 'All'}
   ];
 
-  addToCart(Products item) {
-    productItems.add(item);
+  addToCart(Products products) {
+    productItems.add(products);
   }
 
   showSnack() {

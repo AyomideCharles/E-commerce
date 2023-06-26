@@ -35,7 +35,13 @@ class _CartState extends State<Cart> {
     });
   }
 
-  double totalPrice = 0;
+  double calculateTotalPrice() {
+    double totalPrice = 0.0;
+    for (var products in productItems) {
+      totalPrice += products.price;
+    }
+    return totalPrice;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +170,8 @@ class _CartState extends State<Cart> {
                       'Total',
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                     ),
-                    Text('$totalPrice')
+                    // Text('$totalPrice')
+                    Text('\$${calculateTotalPrice().toStringAsFixed(2)}')
                   ],
                 ),
                 const SizedBox(
