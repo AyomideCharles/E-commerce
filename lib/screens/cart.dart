@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import '../model/productsmodel.dart';
 import 'bottom nav/home.dart';
 
@@ -43,10 +44,6 @@ class _CartState extends State<Cart> {
     return totalPrice;
   }
 
-  // late final Function removeFromCart;
-
-  // int cartItemCount = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,16 +52,32 @@ class _CartState extends State<Cart> {
           'Cart',
           style: TextStyle(fontWeight: FontWeight.w800),
         ),
-        centerTitle: true,
         elevation: 1,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: GestureDetector(
-                onTap: () {
-                  showBottom();
-                },
-                child: const Text('Clear All')),
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () {
+                    showBottom();
+                  },
+                  child: const Text('Clear All')),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  children: [
+                    Icon(Iconsax.shopping_cart5),
+                    Positioned(
+                      bottom: 12,
+                      left: 15,
+                      child: Badge(
+                        smallSize: 0,
+                        child: Text('0'),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           )
         ],
       ),
@@ -149,7 +162,6 @@ class _CartState extends State<Cart> {
                               icon: const Icon(Icons.cancel),
                               onPressed: () {
                                 setState(() {
-                                  // removeFromCart();
                                   showSnack();
                                   productItems.removeAt(index);
                                 });

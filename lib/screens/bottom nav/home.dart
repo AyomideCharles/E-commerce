@@ -84,12 +84,12 @@ class _HomeState extends State<Home> {
                                           productItems: [],
                                         )));
                           },
-                          icon: const Icon(Iconsax.shopping_bag5)),
+                          icon: const Icon(Iconsax.shopping_cart4)),
                       Positioned(
                         right: 4,
                         top: 4,
                         child: Badge(
-                          smallSize: 0,
+                          // smallSize: 0,
                           child: Text(
                             cartItemCount.toString(),
                             style: const TextStyle(fontSize: 15),
@@ -204,7 +204,7 @@ class _HomeState extends State<Home> {
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.grey.shade900)),
+                            border: Border.all(color: Colors.grey.shade400)),
                         child: const Row(
                           children: [
                             Text(
@@ -250,21 +250,27 @@ class _HomeState extends State<Home> {
                                   }));
                                 },
                                 child: Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     border:
-                                        Border.all(color: Colors.grey.shade900),
+                                        Border.all(color: Colors.grey.shade400),
                                   ),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Image.asset(
-                                        products[index].image,
-                                        width: 190,
-                                        height: 115,
-                                        fit: BoxFit.cover,
+                                      ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                            topLeft: Radius.circular(10),
+                                            topRight: Radius.circular(10)),
+                                        child: Image.asset(
+                                          products[index].image,
+                                          width: 190,
+                                          height: 115,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 10,
