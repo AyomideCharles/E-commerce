@@ -5,6 +5,7 @@ import 'bottom nav/home.dart';
 
 class Cart extends StatefulWidget {
   final List<Products> productItems;
+
   const Cart({super.key, required this.productItems});
 
   @override
@@ -37,12 +38,17 @@ class _CartState extends State<Cart> {
   }
 
   double calculateTotalPrice() {
+   
     double totalPrice = 0.0;
     for (var products in productItems) {
       totalPrice += products.price;
     }
     return totalPrice;
   }
+
+  
+
+  int cartItemCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -54,30 +60,12 @@ class _CartState extends State<Cart> {
         ),
         elevation: 1,
         actions: [
-          Row(
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    showBottom();
-                  },
-                  child: const Text('Clear All')),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Stack(
-                  children: [
-                    Icon(Iconsax.shopping_cart5),
-                    Positioned(
-                      bottom: 12,
-                      left: 15,
-                      child: Badge(
-                        smallSize: 0,
-                        child: Text('0'),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Badge.count(
+              count: cartItemCount,
+              child: const Icon(Iconsax.shopping_cart4),
+            ),
           )
         ],
       ),
@@ -162,6 +150,7 @@ class _CartState extends State<Cart> {
                               icon: const Icon(Icons.cancel),
                               onPressed: () {
                                 setState(() {
+                                  cartItemCount--;
                                   showSnack();
                                   productItems.removeAt(index);
                                 });

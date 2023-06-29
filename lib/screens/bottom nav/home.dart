@@ -42,67 +42,55 @@ class _HomeState extends State<Home> {
   final _controller = PageController();
 
   int cartItemCount = 0;
+ 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Column(
+        title: const Row(
           children: [
-            ListTile(
-              title: const Text(
-                'Delivery address',
-                style: TextStyle(color: Colors.grey),
-              ),
-              subtitle: const Row(
-                children: [
-                  Text(
-                    'Lagos, Nigeria',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(Iconsax.arrow_down_1)
-                ],
-              ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(Iconsax.notification),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Stack(
-                    children: [
-                      IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const Cart(
-                                          productItems: [],
-                                        )));
-                          },
-                          icon: const Icon(Iconsax.shopping_cart4)),
-                      Positioned(
-                        right: 4,
-                        top: 4,
-                        child: Badge(
-                          // smallSize: 0,
-                          child: Text(
-                            cartItemCount.toString(),
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                        ),
-                      )
-                    ],
-                  )
-                ],
-              ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Delivery Address',
+                  style: TextStyle(fontSize: 16),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Lagos, Nigeria',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Icon(Iconsax.arrow_down5)
+                  ],
+                ),
+              ],
             )
           ],
         ),
+        actions: [
+          const Icon(Iconsax.notification),
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Badge.count(
+              count: cartItemCount,
+              child: IconButton(
+                icon: const Icon(Iconsax.shopping_cart4),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Cart(productItems: [])));
+                },
+              ),
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Padding(
