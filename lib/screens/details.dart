@@ -131,21 +131,19 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    side: BorderSide(color: Colors.grey.shade800),
-                    backgroundColor: Colors.grey[200],
+                    backgroundColor: const Color(0xff67C4A7),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5))),
                 onPressed: () {},
                 child: const Text(
                   'Add to Cart',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(color: Colors.white),
                 )),
             const SizedBox(
               width: 20,
             ),
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    side: BorderSide(color: Colors.grey.shade800),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5)),
                     backgroundColor: Colors.grey[200]),

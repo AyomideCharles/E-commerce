@@ -34,19 +34,24 @@ class _CartState extends State<Cart> {
   void _decreaseCounter() {
     setState(() {
       _counter--;
+      if (_counter != 0) {
+        _counter = 0;
+      } else {
+        () {
+          Null;
+        };
+      }
     });
   }
 
+  double totalPrice = 0.0;
+
   double calculateTotalPrice() {
-   
-    double totalPrice = 0.0;
     for (var products in productItems) {
       totalPrice += products.price;
     }
     return totalPrice;
   }
-
-  
 
   int cartItemCount = 0;
 
@@ -69,144 +74,130 @@ class _CartState extends State<Cart> {
           )
         ],
       ),
-      body: Stack(children: [
-        ListView.builder(
-            itemCount: productItems.length,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  ListTile(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)),
-                    leading: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Checkbox(
-                            checkColor: Colors.white,
-                            fillColor: const MaterialStatePropertyAll(
-                                Color(0xff67C4A7)),
-                            value: _icChecked,
-                            onChanged: (value) {
-                              setState(() {
-                                _icChecked = value!;
-                              });
-                            }),
-                        Image.asset(
-                          productItems[index].image,
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        )
-                      ],
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          productItems[index].title,
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        const Text(
-                          'Variant: Grey',
-                          style: TextStyle(color: Colors.grey, fontSize: 15),
-                        ),
-                      ],
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$ ${productItems[index].price.toString()}',
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
-                        ),
-                        Row(
-                          children: [
-                            IconButton(
-                                onPressed: () {
-                                  _decreaseCounter();
-                                },
-                                icon: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: const Icon(Icons.remove))),
-                            Text(
-                              '$_counter',
-                            ),
-                            IconButton(
-                                onPressed: () {
-                                  _incrementCounter();
-                                  setState(() {});
-                                },
-                                icon: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: const Icon(Icons.add))),
-                            IconButton(
-                              icon: const Icon(Icons.cancel),
-                              onPressed: () {
-                                setState(() {
-                                  cartItemCount--;
-                                  showSnack();
-                                  productItems.removeAt(index);
-                                });
-                              },
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
-                  const Divider()
-                ],
-              );
-            }),
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade200),
-              color: Colors.white,
-            ),
-            padding: const EdgeInsets.all(10),
-            height: 110,
-            child: Column(
+      body: ListView.builder(
+          itemCount: productItems.length,
+          itemBuilder: (context, index) {
+            return Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Total',
-                      style: TextStyle(color: Colors.grey, fontSize: 16),
-                    ),
-                    Text('\$${calculateTotalPrice().toStringAsFixed(2)}')
-                  ],
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8)),
+                  leading: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Checkbox(
+                          checkColor: Colors.white,
+                          fillColor:
+                              const MaterialStatePropertyAll(Color(0xff67C4A7)),
+                          value: _icChecked,
+                          onChanged: (value) {
+                            setState(() {
+                              _icChecked = value!;
+                            });
+                          }),
+                      Image.asset(
+                        productItems[index].image,
+                        width: 80,
+                        height: 80,
+                        fit: BoxFit.cover,
+                      )
+                    ],
+                  ),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        productItems[index].title,
+                        style: const TextStyle(fontWeight: FontWeight.w700),
+                      ),
+                      const Text(
+                        'Variant: Grey',
+                        style: TextStyle(color: Colors.grey, fontSize: 15),
+                      ),
+                    ],
+                  ),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '\$ ${productItems[index].price.toString()}',
+                        style: const TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.w500),
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                _decreaseCounter();
+                              },
+                              icon: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: const Icon(Icons.remove))),
+                          Text(
+                            '$_counter',
+                          ),
+                          IconButton(
+                              onPressed: () {
+                                _incrementCounter();
+                              },
+                              icon: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border.all(),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: const Icon(Icons.add))),
+                          IconButton(
+                            icon: const Icon(Icons.cancel),
+                            onPressed: () {
+                              setState(() {
+                                cartItemCount--;
+                                showSnack();
+                                productItems.removeAt(index);
+                              });
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
-                const SizedBox(
-                  height: 10,
+                const Divider()
+              ],
+            );
+          }),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        height: 110,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Total',
+                  style: TextStyle(color: Colors.black, fontSize: 16),
                 ),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        backgroundColor: const Color(0xff67C4A7),
-                        minimumSize: const Size(double.infinity, 50)),
-                    onPressed: () {},
-                    child: const Text(
-                      'Proceed to Checkout',
-                      style: TextStyle(color: Colors.black),
-                    ))
+                Text('\$${calculateTotalPrice().toStringAsFixed(2)}')
               ],
             ),
-          ),
-        )
-      ]),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff67C4A7),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
+                    minimumSize: const Size(double.infinity, 50)),
+                onPressed: () {},
+                child: const Text(
+                  'Proceed to Checkout',
+                  style: TextStyle(color: Colors.white),
+                ))
+          ],
+        ),
+      ),
     );
   }
 

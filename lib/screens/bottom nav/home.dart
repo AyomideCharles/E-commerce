@@ -24,30 +24,46 @@ class _HomeState extends State<Home> {
     {'image': 'assets/all.png', 'text': 'All'}
   ];
 
-  addToCart(Products products) {
-    productItems.add(products);
-    cartItemCount++;
-  }
-
-  showSnack() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        backgroundColor: Color(0xff67C4A7),
-        duration: Duration(milliseconds: 1000),
-        content: Text(
-          '1 Item Added to Cart',
-          style: TextStyle(color: Colors.black),
-        )));
-  }
-
   final _controller = PageController();
 
   int cartItemCount = 0;
- 
+
+  addToCart(Products products) {
+    productItems.add(products);
+    cartItemCount++;
+
+    // final existingItemIndex = productItems.indexWhere(
+    //   (cartItem) => cartItem.id == products.id,
+    // );
+
+    // if (existingItemIndex != -1) {
+    //   productItems[existingItemIndex].quantity += 1;
+    // } else {
+    //   productItems.add(Products(
+    //       id: products.id,
+    //       title: products.title,
+    //       image: products.image,
+    //       price: products.price,
+    //       description: products.description));
+    // }
+  }
+
+  List<Products> searchedProducts = [];
+
+  void searchProducts(String query) {
+    setState(() {
+      searchedProducts = products.where((item) {
+        final itemName = item.title.toLowerCase();
+        return itemName.contains(query.toLowerCase());
+      }).toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80,
         title: const Row(
           children: [
             Column(
@@ -97,6 +113,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
             SearchBar(
+              onChanged: searchProducts,
               elevation: const MaterialStatePropertyAll(1),
               backgroundColor: const MaterialStatePropertyAll(Colors.white),
               shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -297,13 +314,13 @@ class _HomeState extends State<Home> {
                                           child: const Text(
                                             'Add to cart',
                                             style:
-                                                TextStyle(color: Colors.black),
+                                                TextStyle(color: Colors.white),
                                           ))
                                     ],
                                   ),
                                 ),
                               );
-                            }),
+                            })
                       ],
                     ),
                   ),
@@ -314,5 +331,15 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  showSnack() {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        backgroundColor: Color(0xff67C4A7),
+        duration: Duration(milliseconds: 1000),
+        content: Text(
+          '1 Item Added to Cart',
+          style: TextStyle(color: Colors.black),
+        )));
   }
 }
