@@ -26,7 +26,7 @@ List<Products> products = [
       image: 'assets/xbox.jpg',
       price: 15.23,
       description:
-          'Experience gaming like never before with the PS4. Dive into a world of immersive gameplay, stunning graphics, and endless entertainment. Discover a vast library of thrilling games and embark on epic adventures. With its sleek design and powerful performance, the PS4 delivers an unparalleled gaming experience. Get ready to elevate your gaming to new heights with the ultimate gaming console – the PS4.'),
+          'Experience gaming like never before with the XBOX. Dive into a world of immersive gameplay, stunning graphics, and endless entertainment. Discover a vast library of thrilling games and embark on epic adventures. With its sleek design and powerful performance, the PS4 delivers an unparalleled gaming experience. Get ready to elevate your gaming to new heights with the ultimate gaming console – the XBOX.'),
   Products(
       title: 'Aesthetic-White Mug',
       image: 'assets/mugg.jpg',

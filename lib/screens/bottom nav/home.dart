@@ -31,33 +31,18 @@ class _HomeState extends State<Home> {
   addToCart(Products products) {
     productItems.add(products);
     cartItemCount++;
-
-    // final existingItemIndex = productItems.indexWhere(
-    //   (cartItem) => cartItem.id == products.id,
-    // );
-
-    // if (existingItemIndex != -1) {
-    //   productItems[existingItemIndex].quantity += 1;
-    // } else {
-    //   productItems.add(Products(
-    //       id: products.id,
-    //       title: products.title,
-    //       image: products.image,
-    //       price: products.price,
-    //       description: products.description));
-    // }
   }
 
   List<Products> searchedProducts = [];
 
-  void searchProducts(String query) {
-    setState(() {
-      searchedProducts = products.where((item) {
-        final itemName = item.title.toLowerCase();
-        return itemName.contains(query.toLowerCase());
-      }).toList();
-    });
-  }
+  // void searchProducts(String query) {
+  //   setState(() {
+  //     searchedProducts = products.where((item) {
+  //       final itemName = item.title.toLowerCase();
+  //       return itemName.contains(query.toLowerCase());
+  //     }).toList();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +98,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
             SearchBar(
-              onChanged: searchProducts,
+              // onChanged: searchProducts,
               elevation: const MaterialStatePropertyAll(1),
               backgroundColor: const MaterialStatePropertyAll(Colors.white),
               shape: MaterialStatePropertyAll(RoundedRectangleBorder(

@@ -25,28 +25,25 @@ class _CartState extends State<Cart> {
 
   int _counter = 1;
 
-  void _incrementCounter() {
+// increase item quantity in cart
+  void addToCart() {
     setState(() {
       _counter++;
     });
   }
 
-  void _decreaseCounter() {
+// reduce item quantity in cart
+  void removeFromCart() {
     setState(() {
-      _counter--;
-      if (_counter != 0) {
-        _counter = 0;
-      } else {
-        () {
-          Null;
-        };
+      if (_counter > 1) {
+        _counter--;
       }
     });
   }
 
-  double totalPrice = 0.0;
-
+// get total price for all items added to the cart
   double calculateTotalPrice() {
+    double totalPrice = 0.0;
     for (var products in productItems) {
       totalPrice += products.price;
     }
@@ -128,7 +125,7 @@ class _CartState extends State<Cart> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                _decreaseCounter();
+                                removeFromCart();
                               },
                               icon: Container(
                                   decoration: BoxDecoration(
@@ -140,7 +137,7 @@ class _CartState extends State<Cart> {
                           ),
                           IconButton(
                               onPressed: () {
-                                _incrementCounter();
+                                addToCart();
                               },
                               icon: Container(
                                   decoration: BoxDecoration(
