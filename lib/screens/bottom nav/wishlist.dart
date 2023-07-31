@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
-class WishList extends StatelessWidget {
+class WishList extends StatefulWidget {
   const WishList({super.key});
 
+  @override
+  State<WishList> createState() => _WishListState();
+}
+
+class _WishListState extends State<WishList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.white,
+          title: const Text('WishList'),
+          centerTitle: true,
         ),
         body: Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
@@ -16,12 +22,7 @@ class WishList extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Image.asset('assets/iphone.jpg'),
-                    title: const Text('iPhone 14 pro max'),
-                    subtitle: const Text('Color: White'),
-                    trailing: const Icon(Iconsax.candle),
-                  );
+                  return const ListTile();
                 })));
   }
 }

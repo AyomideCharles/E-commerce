@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+// import 'package:iconsax/iconsax.dart';
 import '../model/productsmodel.dart';
 import 'bottom nav/home.dart';
 
@@ -13,6 +14,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  // notification for items removed from cart
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Color(0xff67C4A7),
@@ -25,16 +27,40 @@ class _CartState extends State<Cart> {
 
   int _counter = 1;
 
+  double countPrice = 0.0;
+
 // increase item quantity in cart
-  void addToCart() {
+  void addToCart(int index) {
     setState(() {
+      // Increase the quantity of the selected item
+      if (index >= 0 && index < productItems.length) {
+        productItems[index].quantity++;
+      }
+
+      // Recalculate the total price after adding an item
+      countPrice = 0.0;
+      for (var product in productItems) {
+        countPrice += product.price * product.quantity;
+      }
       _counter++;
     });
   }
 
 // reduce item quantity in cart
-  void removeFromCart() {
+  void removeFromCart(int index) {
     setState(() {
+      // Reduce the quantity of the selected item
+      if (index >= 0 && index < productItems.length) {
+        if (productItems[index].quantity > 1) {
+          productItems[index].quantity--;
+        }
+      }
+
+      // Recalculate the total price after removing an item
+      countPrice = 0.0;
+      for (var product in productItems) {
+        countPrice += product.price * product.quantity;
+      }
       if (_counter > 1) {
         _counter--;
       }
@@ -45,12 +71,10 @@ class _CartState extends State<Cart> {
   double calculateTotalPrice() {
     double totalPrice = 0.0;
     for (var products in productItems) {
-      totalPrice += products.price;
+      totalPrice += products.price * products.quantity;
     }
     return totalPrice;
   }
-
-  int cartItemCount = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -62,13 +86,26 @@ class _CartState extends State<Cart> {
         ),
         elevation: 1,
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20),
-            child: Badge.count(
-              count: cartItemCount,
-              child: const Icon(Iconsax.shopping_cart4),
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 5),
+          //   child: Badge(
+          //     smallSize: 0,
+          //     child: Row(
+          //       children: [
+          //         const Icon(Iconsax.shopping_cart4),
+          //         const SizedBox(
+          //           width: 10,
+          //         ),
+          //         Text('${productItems.length}')
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          IconButton(
+              onPressed: () {
+                showBottom();
+              },
+              icon: const Text('Clear All')),
         ],
       ),
       body: ListView.builder(
@@ -125,19 +162,17 @@ class _CartState extends State<Cart> {
                         children: [
                           IconButton(
                               onPressed: () {
-                                removeFromCart();
+                                removeFromCart(index);
                               },
                               icon: Container(
                                   decoration: BoxDecoration(
                                       border: Border.all(),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: const Icon(Icons.remove))),
-                          Text(
-                            '$_counter',
-                          ),
+                          Text(productItems[index].quantity.toString()),
                           IconButton(
                               onPressed: () {
-                                addToCart();
+                                addToCart(index);
                               },
                               icon: Container(
                                   decoration: BoxDecoration(
@@ -145,10 +180,9 @@ class _CartState extends State<Cart> {
                                       borderRadius: BorderRadius.circular(20)),
                                   child: const Icon(Icons.add))),
                           IconButton(
-                            icon: const Icon(Icons.cancel),
+                            icon: const Icon(Icons.delete),
                             onPressed: () {
                               setState(() {
-                                cartItemCount--;
                                 showSnack();
                                 productItems.removeAt(index);
                               });

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:e_commerce/screens/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -26,14 +28,11 @@ class _HomeState extends State<Home> {
 
   final _controller = PageController();
 
-  int cartItemCount = 0;
-
   addToCart(Products products) {
     productItems.add(products);
-    cartItemCount++;
   }
 
-  List<Products> searchedProducts = [];
+  // List<Products> searchedProducts = [];
 
   // void searchProducts(String query) {
   //   setState(() {
@@ -75,19 +74,27 @@ class _HomeState extends State<Home> {
           ],
         ),
         actions: [
-          const Icon(Iconsax.notification),
           Padding(
             padding: const EdgeInsets.only(right: 20),
-            child: Badge.count(
-              count: cartItemCount,
-              child: IconButton(
-                icon: const Icon(Iconsax.shopping_cart4),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const Cart(productItems: [])));
-                },
+            child: Badge(
+              smallSize: 0,
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Cart(
+                                      productItems: [],
+                                    )));
+                      },
+                      icon: const Icon(Iconsax.shopping_cart4)),
+                  Text(
+                    '${productItems.length}',
+                    style: TextStyle(color: Colors.red.shade900, fontSize: 16),
+                  ),
+                ],
               ),
             ),
           )
@@ -255,11 +262,14 @@ class _HomeState extends State<Home> {
                                         borderRadius: const BorderRadius.only(
                                             topLeft: Radius.circular(10),
                                             topRight: Radius.circular(10)),
-                                        child: Image.asset(
-                                          products[index].image,
-                                          width: 190,
-                                          height: 115,
-                                          fit: BoxFit.cover,
+                                        child: Hero(
+                                          tag: 'animate-${products[index].image}',
+                                          child: Image.asset(
+                                            products[index].image,
+                                            width: 190,
+                                            height: 115,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(
@@ -289,7 +299,7 @@ class _HomeState extends State<Home> {
                                               shape: RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          10))),
+                                                          5))),
                                           onPressed: () {
                                             setState(() {
                                               addToCart(products[index]);
@@ -318,6 +328,7 @@ class _HomeState extends State<Home> {
     );
   }
 
+// notification for items added to cart
   showSnack() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         backgroundColor: Color(0xff67C4A7),

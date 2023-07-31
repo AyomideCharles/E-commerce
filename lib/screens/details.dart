@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+
 import '../model/productsmodel.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -42,10 +42,13 @@ class _ProductDetailsState extends State<ProductDetails> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              widget.productdetail.image,
-              width: double.infinity,
-              fit: BoxFit.contain,
+            Hero(
+              tag: 'animate-${widget.productdetail.image}',
+              child: Image.asset(
+                widget.productdetail.image,
+                width: double.infinity,
+                fit: BoxFit.contain,
+              ),
             ),
             ListTile(
               title: Text(widget.productdetail.title,
@@ -61,7 +64,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   _changeColor();
                 },
                 icon: Icon(
-                  Iconsax.lovely5,
+                  Icons.favorite,
                   color: _buttonColor,
                 ),
               ),
@@ -73,7 +76,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Choose the color'),
+                    const Text('Choose the color :'),
                     GridView.builder(
                         shrinkWrap: true,
                         gridDelegate:
@@ -81,16 +84,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 crossAxisCount: 5),
                         itemCount: colors.length,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Card(
-                              color: colors[index],
-                            ),
+                          return Card(
+                            color: colors[index],
                           );
                         }),
                     const Divider(),
                     ListTile(
-                      leading: Image.asset('assets/applelogo.png'),
+                      contentPadding: EdgeInsets.zero,
+                      leading: Image.asset(
+                        widget.productdetail.brand,
+                        width: 70,
+                      ),
                       title: const Text(
                         'Apple Store',
                         style: TextStyle(
