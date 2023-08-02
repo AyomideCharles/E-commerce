@@ -1,10 +1,8 @@
-// ignore_for_file: unnecessary_null_comparison
-
 import 'package:e_commerce/screens/cart.dart';
+import 'package:e_commerce/widgets/search.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
 import '../../model/productsmodel.dart';
 import '../details.dart';
 
@@ -18,6 +16,7 @@ class Home extends StatefulWidget {
 List<Products> productItems = [];
 
 class _HomeState extends State<Home> {
+  
   List category = [
     {'image': 'assets/apparel.png', 'text': 'Apparel'},
     {'image': 'assets/school.png', 'text': 'School'},
@@ -31,17 +30,6 @@ class _HomeState extends State<Home> {
   addToCart(Products products) {
     productItems.add(products);
   }
-
-  // List<Products> searchedProducts = [];
-
-  // void searchProducts(String query) {
-  //   setState(() {
-  //     searchedProducts = products.where((item) {
-  //       final itemName = item.title.toLowerCase();
-  //       return itemName.contains(query.toLowerCase());
-  //     }).toList();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +66,7 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.only(right: 20),
             child: Badge(
               smallSize: 0,
-              child: Row(
+              child: Stack(
                 children: [
                   IconButton(
                       onPressed: () {
@@ -90,9 +78,13 @@ class _HomeState extends State<Home> {
                                     )));
                       },
                       icon: const Icon(Iconsax.shopping_cart4)),
-                  Text(
-                    '${productItems.length}',
-                    style: TextStyle(color: Colors.red.shade900, fontSize: 16),
+                  Positioned(
+                    right: 0,
+                    child: Text(
+                      '${productItems.length}',
+                      style:
+                          TextStyle(color: Colors.red.shade900, fontSize: 16),
+                    ),
                   ),
                 ],
               ),
@@ -104,14 +96,16 @@ class _HomeState extends State<Home> {
         child: Padding(
           padding: const EdgeInsets.all(15.0),
           child: Column(children: [
-            SearchBar(
-              // onChanged: searchProducts,
-              elevation: const MaterialStatePropertyAll(1),
-              backgroundColor: const MaterialStatePropertyAll(Colors.white),
-              shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10))),
-              leading: const Icon(Icons.search),
-              hintText: 'Search here.....',
+            TextField(
+              decoration: const InputDecoration(
+                  hintText: 'Search Here......', border: OutlineInputBorder()),
+              onSubmitted: (value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SearchResults(searchQuery: value)));
+              },
             ),
             const SizedBox(
               height: 20,
@@ -165,23 +159,18 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: category
                           .map((e) => Padding(
-                                padding: const EdgeInsets.only(right: 20),
-                                child: Container(
-                                  height: 100,
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      color: Colors.grey.shade300),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                        e['image'],
-                                        width: 50,
-                                      ),
-                                      Text(e['text'])
-                                    ],
-                                  ),
+                                padding: const EdgeInsets.only(right: 30),
+                                child: Column(
+                                  children: [
+                                    Image.asset(
+                                      e['image'],
+                                      width: 50,
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(e['text'])
+                                  ],
                                 ),
                               ))
                           .toList()),
@@ -263,7 +252,8 @@ class _HomeState extends State<Home> {
                                             topLeft: Radius.circular(10),
                                             topRight: Radius.circular(10)),
                                         child: Hero(
-                                          tag: 'animate-${products[index].image}',
+                                          tag:
+                                              'animate-${products[index].image}',
                                           child: Image.asset(
                                             products[index].image,
                                             width: 190,

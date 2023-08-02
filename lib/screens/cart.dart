@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
-// import 'package:iconsax/iconsax.dart';
 import '../model/productsmodel.dart';
 import 'bottom nav/home.dart';
 
