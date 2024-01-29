@@ -1,4 +1,4 @@
-import 'package:e_commerce/screens/bottom%20nav/home.dart';
+import 'package:e_commerce/views/homepage/home.dart';
 import 'package:e_commerce/screens/bottom%20nav/history.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
